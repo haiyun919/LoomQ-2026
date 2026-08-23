@@ -50,11 +50,27 @@ python3 evaluator.py --level l1 --target spinq,originq --json-out report.json
 
 参赛项目使用第三方 SDK 时，必须把依赖写入 `requirements.txt` 并精确锁定版本，例如 `package==1.2.3`。不要提交 `package>=1.2`，正式评测不会替参赛队选择依赖版本。
 
+本项目为 Braket 和 SpinQit 维护两个互不兼容的 Python 3.10 环境。从 fork 根目录复现 L1：
+
+```bash
+python3.10 -m venv .venv
+.venv/bin/python -m pip install -r starter_kit/requirements.txt
+python3.10 -m venv .venv-spinq
+.venv-spinq/bin/python -m pip install -r starter_kit/requirements-spinq.txt
+export LOOMQ_SPINQ_PYTHON="$PWD/.venv-spinq/bin/python"
+PYTHONPATH=starter_kit PYTHONDONTWRITEBYTECODE=1 \
+  .venv/bin/python starter_kit/evaluator.py \
+  --level l1 --target spinq,braket --shots 8192 \
+  --json-out starter_kit/evidence/l1-public-evaluator.json
+```
+
+不要把两个 requirements 文件装进同一个环境；两者分别锁定 antlr4 4.13.2 与 4.9.2。Windows 下把 `bin/python` 换成 `Scripts\python.exe`。
+
 也可以先验证基础容器：
 
 ```bash
-docker build -t loomq-submission .
-docker run --rm loomq-submission
+docker build --platform linux/amd64 -t loomq-submission starter_kit
+docker run --rm --platform linux/amd64 loomq-submission
 ```
 
 ## Adapter 契约

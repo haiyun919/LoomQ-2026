@@ -1,0 +1,33 @@
+{
+  "bell": {
+    "name": "Bell 态 (2 比特纠缠)",
+    "qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[2];\ncreg c[2];\nh q[0];\ncx q[0], q[1];\nmeasure q -> c;",
+    "num_qubits": 2,
+    "gates": [
+      {"name": "h", "label": "H", "target": 0, "type": "single"},
+      {"name": "cx", "label": "CX", "control": 0, "target": 1, "type": "two"}
+    ],
+    "ideal": {"00": 0.5, "11": 0.5},
+    "results": {
+      "spinq": {"00": 4096, "11": 4096, "shots": 8192},
+      "braket": {"00": 4087, "11": 4105, "shots": 8192}
+    },
+    "description": "两个量子比特被"纠缠"在一起——它们总是同时为 0 或同时为 1，永远不会出现一个 0 一个 1。这就是爱因斯坦所说的"幽灵般的超距作用"。"
+  },
+  "ghz3": {
+    "name": "GHZ-3 态 (3 比特纠缠)",
+    "qasm": "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[3];\ncreg c[3];\nh q[0];\ncx q[0],q[1];\ncx q[1],q[2];\nmeasure q -> c;",
+    "num_qubits": 3,
+    "gates": [
+      {"name": "h", "label": "H", "target": 0, "type": "single"},
+      {"name": "cx", "label": "CX", "control": 0, "target": 1, "type": "two"},
+      {"name": "cx", "label": "CX", "control": 1, "target": 2, "type": "two"}
+    ],
+    "ideal": {"000": 0.5, "111": 0.5},
+    "results": {
+      "spinq": {"000": 4100, "111": 4092, "shots": 8192},
+      "braket": {"000": 4081, "111": 4111, "shots": 8192}
+    },
+    "description": "三个量子比特被纠缠在一起——测量任何一个，其余两个瞬间"知道"结果。这是量子计算中最著名的纠缠态之一。"
+  }
+}
